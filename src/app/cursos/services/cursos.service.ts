@@ -9,7 +9,7 @@ import { delay, first, take, tap } from 'rxjs';
 })
 export class CursosService {
 
-  private readonly API = '/assets/curdos.json';
+  private readonly API = '/assets/cursos.json';
 
   constructor(private httpClient: HttpClient) { }
   // esse http client vai ser fornecido automaticamente ao fazer a declaração no construtor
@@ -18,7 +18,7 @@ export class CursosService {
     return this.httpClient.get<Curso[]>(this.API)
       .pipe(
         first(),//finaliza a conexao depois do primeiro
-        delay(10000),
+        //delay(10000),
         tap(cursosLista => console.log(cursosLista))
       );
   }
