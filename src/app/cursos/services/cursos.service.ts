@@ -1,6 +1,7 @@
 import { Curso } from './../model/curso';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { first, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CursosService {
 
+  private readonly API = '/assets/cursos.json';
+
   constructor(private httpClient: HttpClient) { }
   // esse http client vai ser fornecido automaticamente ao fazer a declaração no construtor
   // injeção de dependencia
-  listar(): Curso[] {
-    return [
-      { _id: "1", nome: 'Angular', categoria: 'Front-end' }
-    ];
+  listar() {
+    return this.httpClient.get<Curso[]>(this.API)
+      .pipe(
+        first(),//finaliza a conexao depois do primeiro
+        tap(cursosLista => console.log(cursosLista))
+      );
   }
 }
